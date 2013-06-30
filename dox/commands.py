@@ -47,6 +47,9 @@ def upload(args):
     keymap = get_keymap()
     keyfields = get_keyfields()
     for root, dirs, files in walk(getcwd()):
+        if 'env' in dirs:
+            dirs.remove('env') # don't walk into environment
+        
         for name in files:
             if name.endswith('.md'):
                 print 'Uploading',name
