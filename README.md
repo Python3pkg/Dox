@@ -44,3 +44,9 @@ Deleting Content
 	"Archiving hello.md"
 	"Done"
 	
+Known Limitations
+---
+
+* Only one content type supported.
+* S3 Asset Fields not supported.
+
