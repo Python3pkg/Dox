@@ -19,9 +19,7 @@ def dox_dir():
 def init_environment(args):
     """
     Initializes the environment.
-    """
-    # TODO - Ping Axilent to test settings
-    
+    """    
     dirpath = dox_dir()
     
     cfg_path = os.path.join(dirpath,'dox.cfg')
@@ -41,7 +39,21 @@ def init_environment(args):
     if args.key_field:
         cfg.set('Connection','key_field',args.key_field)
     
-    cfg_file = open(cfg_path,'w')
-    cfg.write(cfg_file)
-    cfg_file.close()
+    with open(cfg_path,'wb') as cfg_file:
+        cfg.write(cfg_file)
+
+def get_cfg():
+    """
+    Gets the config file.
+    """
+    cfg = SafeConfigParser()
+    cfg_path = os.path.join(dox_dir(),'dox.cfg')
+
+    # Sanity check
+    if not os.path.exists(cfg_path):
+        raise ValueError('No config file found.  Directory has not been initialized for dox.  Use dox init.')
+
+    cfg.read(cfg_path)
     
+    return cfg
+

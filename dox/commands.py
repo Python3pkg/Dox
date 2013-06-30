@@ -3,6 +3,7 @@ Command line tool.
 """
 import sys
 from dox.config import init_environment
+from dox.client import ping_library
 
 def init(args):
     """
@@ -24,6 +25,10 @@ def init(args):
     init_environment(args)
     
     print 'Environment initialized.'
+    
+    print 'Testing environment...'
+    ping_library()
+    print 'Connection settings are good.'
 
 def upload(args):
     """
