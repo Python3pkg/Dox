@@ -6,6 +6,11 @@ Markdown-oriented content authoring for Axilent.
 Basic Idea
 ----
 
+Installation
+
+	pip install Axilent-Dox
+
+
 Initialization
 
 	cd mydocs
