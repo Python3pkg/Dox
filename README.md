@@ -50,3 +50,8 @@ Known Limitations
 * Only one content type supported.
 * S3 Asset Fields not supported.
 
+Other TODOs
+---
+
+Dox depends on [Sharrock](http://github.com/Axilent/sharrock), which currently requires a full installation of Django.  However Dox only really needs the Sharrock client – not the server capabilities.  In the future we'll package up a client-only version of Sharrock, and Dox will use that, negating the need for a full Django install.
+
