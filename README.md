@@ -49,6 +49,7 @@ Known Limitations
 
 * Only one content type supported.
 * S3 Asset Fields not supported.
+* Due to the limitations of the Markdown parser, only the ASCII character set is supported.
 
 Other TODOs
 ---
