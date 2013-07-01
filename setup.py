@@ -18,12 +18,12 @@ setup(
     url='https://github.com/Axilent/Dox',
     install_requires=['sharrock','Markdown==2.0.1'],
     classifiers=[
-        'Development Status :: 1 - Pre-Alpha',
-        'Environment :: Web Environment',
-        'Intended Audience :: Developers',
+        'Development Status :: 2 - Pre-Alpha',
+        'Environment :: Console',
+        'Intended Audience :: End Users/Desktop',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
-        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Text Processing',
     ],
     scripts=['scripts/dox'],
 )
