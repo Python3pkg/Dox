@@ -134,6 +134,7 @@ def write_hash(markdown_file_path):
         d.update(markdown_file.read())
         digest = d.hexdigest()
         hash_file_path = '%s.hash' % os.path.join(dox_dir(),'hashes',markdown_file.name)
+        print 'writing hash file to path',hash_file_path
         with open(hash_file_path,'wb') as hash_file:
             hash_file.write(digest)
 
@@ -143,6 +144,7 @@ def is_modified(markdown_file_path):
     """
     with open(markdown_file_path,'r') as markdown_file:
         hashfile_path = '%s.hash' % os.path.join(dox_dir(),'hashes',markdown_file.name)
+        print 'looking for hash file at path',hashfile_path
         if os.path.exists(hashfile_path):
             d = hashlib.sha256()
             d.update(markdown_file.read())
