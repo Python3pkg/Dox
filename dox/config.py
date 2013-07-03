@@ -142,7 +142,7 @@ def is_modified(markdown_file_path):
     Tests if the markdown file has been modified.
     """
     with open(markdown_file_path,'r') as markdown_file:
-        hash_file_path = '%s.hash' % os.path.join(dox_dir(),'hashes',os.path.split(markdown_file.name)[1])
+        hashfile_path = '%s.hash' % os.path.join(dox_dir(),'hashes',os.path.split(markdown_file.name)[1])
         if os.path.exists(hashfile_path):
             d = hashlib.sha256()
             d.update(markdown_file.read())
