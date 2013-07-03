@@ -3,8 +3,9 @@ Config for Dox.
 """
 from ConfigParser import SafeConfigParser
 import os.path
-from os import getcwd, mkdir, remove
+from os import getcwd, mkdir, remove, walk
 import json
+import hashlib
 
 def dox_dir():
     """
@@ -45,6 +46,11 @@ def init_environment(args):
     
     with open(cfg_path,'wb') as cfg_file:
         cfg.write(cfg_file)
+        
+    # Make file hash directory
+    hashdir_path = os.path.join(dirpath,'hashes')
+    if not os.path.exists(hashdir_path):
+        mkdir(hashdir_path)
 
 def get_cfg():
     """
@@ -105,3 +111,47 @@ def write_keymap(data):
     with open(keymap_path,'wb') as keymap_file:
         keymap_file.write(json.dumps(data))
 
+
+def clean_hashes():
+    """
+    Cleans the local file hash directory out.
+    """
+    hash_path = os.path.join(dox_dir(),'hashes')
+    if os.path.exists(hash_path):
+        for root, dirs, files in walk(hash_path):
+            for name in files:
+                if name.endswith('.hash'):
+                    remove(os.path.join(root,name))
+    else:
+        mkdir(hash_path)
+
+def write_hash(markdown_file_path):
+    """
+    Scans the file and records a hash digest of the contents.
+    """
+    with open(markdown_file_path) as markdown_file:
+        d = hashlib.sha256()
+        d.update(markdown_file.read())
+        digest = d.hexdigest()
+        hash_file_path = '%s.hash' % os.path.join(dox_dir(),'hashes',markdown_file.name)
+        with open(hash_file_path,'wb') as hash_file:
+            hash_file.write(digest)
+
+def is_modified(markdown_file_path):
+    """
+    Tests if the markdown file has been modified.
+    """
+    with open(markdown_file_path,'r') as markdown_file:
+        hashfile_path = '%s.hash' % os.path.join(dox_dir(),'hashes',markdown_file.name)
+        if os.path.exists(hashfile_path):
+            d = hashlib.sha256()
+            d.update(markdown_file.read())
+            digest = d.hexdigest()
+            with open(hashfile_path) as hashfile:
+                stored_hash = hashfile.read()
+                if stored_hash != digest:
+                    return True # non-matching hashes - file is modified
+                else:
+                    return False # hashes match - file has not been modified
+        else:
+            return True # no stored hash - file is modified by definition

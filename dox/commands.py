@@ -2,7 +2,7 @@
 Command line tool.
 """
 import sys
-from dox.config import init_environment, get_keyfields, get_cfg, write_keyfields, get_keymap, write_keymap
+from dox.config import init_environment, get_keyfields, get_cfg, write_keyfields, get_keymap, write_keymap, clean_hashes, is_modified, write_hash
 from dox.client import ping_library, get_content_keys, get_content_item
 from os import walk, getcwd
 from dox.uploader import upload_document, find_key, extract_keyfield
@@ -52,16 +52,20 @@ def upload(args):
         
         for name in files:
             if name.endswith('.md'):
-                print 'Uploading',name
                 path = os.path.join(root,name)
-                key = find_key(path,keymap,keyfields)
-                key, created = upload_document(path,key=key)
-                if created:
-                    print 'Created new content item',key
-                    keymap[path] = key
-                    keyfield = extract_keyfield(path)
-                    print 'assigning key',key,'to keyfields',keyfields,'under keyfield',keyfield
-                    keyfields[keyfield] = key
+                if is_modified(path):
+                    print 'Uploading',name
+                    key = find_key(path,keymap,keyfields)
+                    key, created = upload_document(path,key=key)
+                    write_hash(path)
+                    if created:
+                        print 'Created new content item',key
+                        keymap[path] = key
+                        keyfield = extract_keyfield(path)
+                        print 'assigning key',key,'to keyfields',keyfields,'under keyfield',keyfield
+                        keyfields[keyfield] = key
+                else:
+                    print name, 'not modified. Skipping.'
     
     write_keyfields(keyfields)
     write_keymap(keymap)
@@ -82,3 +86,11 @@ def keyfields(args):
         print 'Mapping',content_item['data'][keyfield_name],'to',key
     write_keyfields(keyfield_data)
     print 'Keyfield cache synchronized.'
+
+def clean(args):
+    """
+    Cleans out the local hash directory - essentially marking all
+    the local markdown files as modified.
+    """
+    print 'Cleaning out local file records.  All local files eligible for upload.'
+    clean_hashes()
