@@ -16,7 +16,7 @@ setup(
     author='Loren Davie',
     author_email='code@axilent.com',
     url='https://github.com/Axilent/Dox',
-    install_requires=['sharrock','Markdown==2.0.1'],
+    install_requires=['sharrock-client','Markdown==2.0.1'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Console',

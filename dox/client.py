@@ -3,7 +3,7 @@ Axilent Client functionality for Dox.
 """
 from sharrock.client import HttpClient, ResourceClient, ServiceException
 from dox.config import get_cfg
-from django.template.defaultfilters import slugify
+from dox.utils import slugify
 
 def _get_resource(app,resource,library=True):
     """
