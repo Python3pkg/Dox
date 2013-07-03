@@ -145,7 +145,7 @@ def is_modified(markdown_file_path):
     """
     with open(markdown_file_path,'r') as markdown_file:
         print 'reading hash: dox dir is',dox_dir()
-        hashfile_path = '%s.hash' % os.path.join(dox_dir(),'hashes',markdown_file.name)
+        hashfile_path = os.path.join(dox_dir(),'hashes',markdown_file.name)
         print 'looking for hash file at path',hashfile_path
         if os.path.exists(hashfile_path):
             d = hashlib.sha256()
