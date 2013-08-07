@@ -3,7 +3,22 @@ Uploads documents to Axilent.
 """
 import markdown
 from dox.config import get_cfg, get_keymap, get_keyfields
-from dox.client import get_content_library_resource
+from dox.client import get_content_library_resource, get_library_client
+
+def _tagging(md,content_key):
+    """
+    Apply tagging
+    """
+    tagger = get_library_client()
+    
+    # tagging
+    tags = md.Meta['tags']
+    for tag in tags:
+        if tag:
+            tagger.tagcontent(project='Axilent Docs',
+                              content_type='Article',
+                              content_key=content_key,
+                              tag=tag)
 
 def upload_document(path,key=None):
     """
@@ -32,12 +47,16 @@ def upload_document(path,key=None):
                            'project':cfg.get('Connection','project'),
                            'key':key})
         
+        _tagging(md,key)
+        
         return (key,False) # no new document created
     else:
         response = resource.post(data={'content':data,
                                        'project':cfg.get('Connection','project'),
                                        'content_type':cfg.get('Connection','content_type')})
         created_content_type, created_key = response['created_content'].split(':')
+        
+        _tagging(md,created_key)
         
         return (created_key,True) # new document created
     
