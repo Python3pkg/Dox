@@ -10,12 +10,14 @@ def _tagging(md,content_key,content_type):
     Apply tagging
     """
     tagger = get_library_client()
+    cfg = get_cfg()
+    project = cfg.get('Connection','project')
     
     # tagging
     tags = md.Meta['tags']
     for tag in tags:
         if tag:
-            tagger.tagcontent(project='Axilent Docs',
+            tagger.tagcontent(project=project,
                               content_type=content_type,
                               content_key=content_key,
                               tag=tag)
