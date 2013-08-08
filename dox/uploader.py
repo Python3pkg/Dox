@@ -30,7 +30,7 @@ def upload_document(path,key=None):
     cfg = get_cfg()
     body_field_name = cfg.get('Connection','body_field')
     data = {}
-    md = markdown.Markdown(extensions=['meta','tables'])
+    md = markdown.Markdown(extensions=['meta','tables','attr_list'])
     with open(path) as docfile:
         body = md.convert(docfile.read())
         
@@ -76,7 +76,7 @@ def find_key(path,keymap,keyfields):
     try:
         cfg = get_cfg()
         keyfield_name = cfg.get('Connection','key_field')
-        md = markdown.Markdown(extensions=['meta','tables'])
+        md = markdown.Markdown(extensions=['meta','tables','attr_list'])
         with open(path) as docfile:
             md.convert(docfile.read())
             keyfield = md.Meta[keyfield_name][0]
@@ -93,7 +93,7 @@ def extract_keyfield(path):
     """
     cfg = get_cfg()
     keyfield_name = cfg.get('Connection','key_field')
-    md = markdown.Markdown(extensions=['meta','tables'])
+    md = markdown.Markdown(extensions=['meta','tables','attr_list'])
     with open(path) as docfile:
         md.convert(docfile.read())
         try:
