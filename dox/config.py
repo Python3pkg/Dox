@@ -1,7 +1,7 @@
 """
 Config for Dox.
 """
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 import os.path
 from os import getcwd, mkdir, remove, walk
 import json

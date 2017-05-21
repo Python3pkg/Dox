@@ -34,7 +34,7 @@ def upload_document(path,key=None):
     with open(path) as docfile:
         body = md.convert(docfile.read())
         
-        for field_name, field_value in md.Meta.items():
+        for field_name, field_value in list(md.Meta.items()):
             data[field_name] = field_value[0]
         
         data[body_field_name] = body
